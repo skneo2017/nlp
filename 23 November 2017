@@ -1,0 +1,23 @@
+import nltk
+from nltk import word_tokenize
+from nltk.corpus import wordnet
+from nltk.collocations import *
+from nltk.stem.lancaster import LancasterStemmer
+from nltk.corpus import stopwords
+from string import punctuation
+from nltk.wsd import lesk
+customwords= set(stopwords.words('english') + list(punctuation))
+text = "Quick Brown fox closed jumps over the Lazy close Dog, and Mary Had a little closing lamb, her fleece was white as snow,"
+stoppedwords=[word for word in word_tokenize(text) if word not in customwords]
+bm = nltk.collocations.TrigramAssocMeasures
+find = TrigramCollocationFinder.from_words(stoppedwords)
+print(sorted(find.ngram_fd.items()))
+st=LancasterStemmer()
+stemmedWords= [st.stem(word) for word in word_tokenize(text)]
+print (stemmedWords)
+print(nltk.pos_tag(stoppedwords))
+for wd in wordnet.synsets('bass'):
+    print(wd, wd.definition())
+print("###############################################")
+rm = lesk(word_tokenize("lets play bass guitar"), 'bass')
+print(rm, rm.definition())
